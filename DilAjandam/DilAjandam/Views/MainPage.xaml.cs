@@ -27,17 +27,21 @@ namespace DilAjandam.Views
         {
             if (!MenuPages.ContainsKey(id))
             {
-                switch (id)
+                if (id != (int)MenuItemType.Browse && id != (int)MenuItemType.About)
                 {
-                    case (int)MenuItemType.Browse:
-                        MenuPages.Add(id, new NavigationPage(new WordPage("B")));
-                        break;
-                    case (int)MenuItemType.About:
-                        MenuPages.Add(id, new NavigationPage(new AboutPage()));
-                        break;
-                    case (int)MenuItemType.A:
-                        MenuPages.Add(id, new NavigationPage(new WordPage(MenuItemType.A.ToString())));
-                        break;
+                    MenuPages.Add(id, new NavigationPage(new WordPage(((MenuItemType)id).ToString())));
+                }
+                else
+                {
+                    switch (id)
+                    {
+                        case (int)MenuItemType.Browse:
+                            MenuPages.Add(id, new NavigationPage(new WordPage()));
+                            break;
+                        case (int)MenuItemType.About:
+                            MenuPages.Add(id, new NavigationPage(new AboutPage()));
+                            break;
+                    }
                 }
             }
 

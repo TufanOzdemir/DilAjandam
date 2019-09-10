@@ -37,6 +37,10 @@ namespace DilAjandam.Helpers
         private static void DatabaseInitialize(IDBProvider dbContext)
         {
             dbContext.CreateTable<Word>();
+            //dbContext.Insert(new Word() { Key = "Attribute", PrefixKey = "A", Description = "Özellik", Id = Guid.NewGuid().ToString() });
+            //dbContext.Insert(new Word() { Key = "Beta", PrefixKey = "B", Description = "Test", Id = Guid.NewGuid().ToString() });
+            //dbContext.Insert(new Word() { Key = "Case", PrefixKey = "C", Description = "Şart", Id = Guid.NewGuid().ToString() });
+            //dbContext.Insert(new Word() { Key = "Akinon", PrefixKey = "A", Description = "Şirket", Id = Guid.NewGuid().ToString() });
         }
     }
 }

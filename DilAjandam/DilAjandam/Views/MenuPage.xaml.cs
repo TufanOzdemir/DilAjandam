@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using static Common.Enums;
@@ -16,13 +17,13 @@ namespace DilAjandam.Views
         public MenuPage()
         {
             InitializeComponent();
+            menuItems = new List<HomeMenuItem>();
+            var list = Enum.GetValues(typeof(MenuItemType)).Cast<MenuItemType>().ToList();
 
-            menuItems = new List<HomeMenuItem>
+            foreach (var item in list)
             {
-                new HomeMenuItem {Id = MenuItemType.Browse, Title="Browse" },
-                new HomeMenuItem {Id = MenuItemType.About, Title="About" },
-                new HomeMenuItem {Id = MenuItemType.A, Title="A" }
-            };
+                menuItems.Add(new HomeMenuItem { Id = item, Title = item.ToString() });
+            }
 
             ListViewMenu.ItemsSource = menuItems;
 
