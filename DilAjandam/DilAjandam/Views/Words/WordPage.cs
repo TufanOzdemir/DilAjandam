@@ -1,5 +1,6 @@
 ﻿using DataAccessLayer.Services;
 using DilAjandam.Helpers;
+using DilAjandam.Views.Words;
 using ImageCircle.Forms.Plugin.Abstractions;
 using Models;
 using System;
@@ -15,9 +16,11 @@ namespace DilAjandam.Views
     {
         WordService _wordService;
         List<Word> _wordList;
+        string prefix;
 
         public WordPage(string prefix)
         {
+            this.prefix = prefix;
             GetSettings();
             GetData(prefix);
             ComponentLoad();
@@ -39,15 +42,15 @@ namespace DilAjandam.Views
             _wordList = string.IsNullOrWhiteSpace(prefix) ? _wordService.GetAll() : _wordService.GetAll(prefix);
         }
 
-        private ScrollView GetTable(List<Word> words)
+        private ScrollView GetTable()
         {
             ScrollView scrollView = new ScrollView() { Padding = 0, Margin = 0 };
             StackLayout tablestack = new StackLayout() { Padding = 0, Margin = 0, Spacing = -2 };
-            foreach (var item in words)
+            foreach (var item in _wordList)
             {
                 DynamicGrid dynamicGrid = new DynamicGrid(Xamarin.CustomViews.Enums.DynamicGridEnum.Custom, 20, 42,  38, 6) { Padding = 0, Margin = 0, RowSpacing = 0, ColumnSpacing = 0 };
-                dynamicGrid.AddView(new Label() { VerticalOptions = LayoutOptions.Center, FontAttributes = FontAttributes.Bold, Text = item.Key, Margin = new Thickness(5, 0, 0, 0) });
-                dynamicGrid.AddView(new Label() { VerticalOptions = LayoutOptions.Center, Text = item.Description, Margin = 0 });
+                dynamicGrid.AddView(new Label() { VerticalOptions = LayoutOptions.Center, FontAttributes = FontAttributes.Bold, Text = item.Type.ToString(), Margin = 0 });
+                dynamicGrid.AddView(new Label() { VerticalOptions = LayoutOptions.Center, Text = item.Key, Margin = new Thickness(5, 0, 0, 0) });
                 dynamicGrid.AddView(new Label() { HorizontalTextAlignment = TextAlignment.Center, VerticalTextAlignment = TextAlignment.Center, Text = item.Description, Margin = 0 });
 
                 dynamicGrid.AddView(new CircleImage() { Source = "delete.png", GestureRecognizers = { new TapGestureRecognizer() { Command = new Command(DeleteButtonPressed), CommandParameter = item } } });
@@ -59,7 +62,7 @@ namespace DilAjandam.Views
         }
         private async void PlusBarClicked()
         {
-            //await Navigation.PushAsync(new PlanCreate(this));
+            await Navigation.PushAsync(new WordCreatePage(this));
         }
 
         public void ComponentLoad()
@@ -70,7 +73,7 @@ namespace DilAjandam.Views
             {
                 Children =
                 {
-                    GetTable(_wordList)
+                    GetTable()
                 }
             };
             StackLayout mainStack = new StackLayout() { HorizontalOptions = LayoutOptions.FillAndExpand, VerticalOptions = LayoutOptions.FillAndExpand, Padding = new Thickness(0, 5, 0, 0), Margin = 0, Spacing = 10 };
@@ -95,6 +98,7 @@ namespace DilAjandam.Views
 
         public void Refresh()
         {
+            GetData(prefix);
             ComponentLoad();
         }
     }

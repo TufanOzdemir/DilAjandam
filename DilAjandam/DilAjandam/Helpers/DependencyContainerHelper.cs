@@ -28,7 +28,7 @@ namespace DilAjandam.Helpers
                 _builder.RegisterType<SQLiteProvider>().As<IDBProvider>().SingleInstance();
                 //_builder.RegisterType<WordService>().SingleInstance();
                 var dbContext = DependencyService.Get<IDBProviderPlatform>().Connection();
-                _builder.RegisterInstance<WordService>(new WordService(dbContext)).SingleInstance();
+                _builder.RegisterInstance(new WordService(dbContext)).SingleInstance();
                 _container = _builder.Build();
                 DatabaseInitialize(dbContext);
             }
@@ -37,10 +37,10 @@ namespace DilAjandam.Helpers
         private static void DatabaseInitialize(IDBProvider dbContext)
         {
             dbContext.CreateTable<Word>();
-            //dbContext.Insert(new Word() { Key = "Attribute", PrefixKey = "A", Description = "Özellik", Id = Guid.NewGuid().ToString() });
-            //dbContext.Insert(new Word() { Key = "Beta", PrefixKey = "B", Description = "Test", Id = Guid.NewGuid().ToString() });
-            //dbContext.Insert(new Word() { Key = "Case", PrefixKey = "C", Description = "Şart", Id = Guid.NewGuid().ToString() });
-            //dbContext.Insert(new Word() { Key = "Akinon", PrefixKey = "A", Description = "Şirket", Id = Guid.NewGuid().ToString() });
+            //dbContext.Insert(new Word() { Key = "Attribute", PrefixKey = "A", Type = Common.Enums.WordType.Adjective, Description = "Özellik", Id = Guid.NewGuid().ToString() });
+            //dbContext.Insert(new Word() { Key = "Beta", PrefixKey = "B", Type = Common.Enums.WordType.Verb, Description = "Test", Id = Guid.NewGuid().ToString() });
+            //dbContext.Insert(new Word() { Key = "Case", PrefixKey = "C", Type = Common.Enums.WordType.Noun, Description = "Şart", Id = Guid.NewGuid().ToString() });
+            //dbContext.Insert(new Word() { Key = "Akinon", PrefixKey = "A", Type = Common.Enums.WordType.Adverb, Description = "Şirket", Id = Guid.NewGuid().ToString() });
         }
     }
 }

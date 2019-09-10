@@ -7,6 +7,7 @@ using Xamarin.Forms.Xaml;
 
 using DilAjandam.Models;
 using static Common.Enums;
+using DilAjandam.Views.Words;
 
 namespace DilAjandam.Views
 {

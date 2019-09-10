@@ -17,8 +17,7 @@ namespace DataAccessLayer.Services
         public WordService(IDBProvider dBProvider)
         {
             _dataContext = dBProvider;
-            var k = GetAll().GroupBy(c => c.PrefixKey).ToList();
-            _wordDictionary = k.ToDictionary(c => c.Key, t => t.ToList());
+            RefreshData();
         }
 
         public void Create(Word word)
@@ -26,6 +25,7 @@ namespace DataAccessLayer.Services
             try
             {
                 _dataContext.Insert(word);
+                RefreshData();
             }
             catch (Exception ex)
             {
@@ -83,10 +83,16 @@ namespace DataAccessLayer.Services
             try
             {
                 _dataContext.Delete(model);
+                RefreshData();
             }
             catch (Exception ex)
             {
             }
+        }
+
+        private void RefreshData()
+        {
+            _wordDictionary = GetAll().GroupBy(c => c.PrefixKey).ToList().ToDictionary(c => c.Key, t => t.ToList());
         }
     }
 }

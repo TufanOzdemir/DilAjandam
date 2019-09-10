@@ -17,17 +17,8 @@ namespace DilAjandam
         {
             InitializeComponent();
             DependencyContainerHelper.Initialize();
-            //DatabaseInitialize(DependencyContainerHelper.Builder);
             MainPage = new MainPage();
         }
-
-        //private void DatabaseInitialize(ContainerBuilder builder)
-        //{
-        //    var dbContext = DependencyService.Get<IDBProviderPlatform>().Connection();
-        //    builder.RegisterInstance<WordService>(new WordService(dbContext)).SingleInstance();
-        //    dbContext.CreateTable<Word>();
-        //    builder.Build();
-        //}
 
         protected override void OnStart()
         {

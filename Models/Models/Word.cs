@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using static Common.Enums;
 
 namespace Models
 {
@@ -11,5 +12,7 @@ namespace Models
         public string Description { get; set; }
         public string PrefixKey { get; set; }
         public string Id { get; set; }
+
+        public WordType Type { get; set; }
     }
 }

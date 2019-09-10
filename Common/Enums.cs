@@ -6,6 +6,13 @@ namespace Common
 {
     public class Enums
     {
+        public enum WordType
+        {
+            Adjective,
+            Verb,
+            Adverb,
+            Noun
+        }
         public enum MenuItemType
         {
             Browse,
