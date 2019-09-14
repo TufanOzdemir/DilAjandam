@@ -20,20 +20,34 @@ namespace DataAccessLayer.Providers
 
         }
 
-        public List<T> GetAll<T>() where T : new()
+        public List<T> GetAll<T>() where T : IEntity, new()
         {
             return base.Table<T>().ToList();
         }
 
-        public new T Get<T>(string id) where T : IEntity
+        public new T Get<T>(string id) where T : IEntity, new()
         {
-            //return this.GetAll<T>().FirstOrDefault(c => c.Id == id);
-            return default(T);
+            return this.GetAll<T>().FirstOrDefault(c => c.Id == id);
         }
 
         public new void CreateTable<T>()
         {
             base.CreateTable<T>();
+        }
+
+        public bool Delete(object model)
+        {
+            bool result;
+            try
+            {
+                base.Delete(model);
+                result = true;
+            }
+            catch (System.Exception ex)
+            {
+                result = false;
+            }
+            return result;
         }
     }
 }

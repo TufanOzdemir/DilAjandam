@@ -8,27 +8,29 @@ using Xamarin.Forms.Xaml;
 using DilAjandam.Models;
 using static Common.Enums;
 using DilAjandam.Views.Words;
+using System.Linq;
+using Helpers.UI;
 
 namespace DilAjandam.Views
 {
     [DesignTimeVisible(false)]
     public partial class MainPage : MasterDetailPage
     {
-        Dictionary<int, NavigationPage> MenuPages = new Dictionary<int, NavigationPage>();
+        static Dictionary<int, NavigationPage> MenuPages = new Dictionary<int, NavigationPage>();
         public MainPage()
         {
             InitializeComponent();
 
             MasterBehavior = MasterBehavior.Popover;
 
-            MenuPages.Add((int)MenuItemType.Browse, (NavigationPage)Detail);
+            MenuPages.Add((int)MenuItemType.All, (NavigationPage)Detail);
         }
 
         public async Task NavigateFromMenu(int id)
         {
             if (!MenuPages.ContainsKey(id))
             {
-                if (id != (int)MenuItemType.Browse && id != (int)MenuItemType.About)
+                if (id != (int)MenuItemType.All && id != (int)MenuItemType.About)
                 {
                     MenuPages.Add(id, new NavigationPage(new WordPage(((MenuItemType)id).ToString())));
                 }
@@ -36,7 +38,7 @@ namespace DilAjandam.Views
                 {
                     switch (id)
                     {
-                        case (int)MenuItemType.Browse:
+                        case (int)MenuItemType.All:
                             MenuPages.Add(id, new NavigationPage(new WordPage()));
                             break;
                         case (int)MenuItemType.About:
@@ -56,6 +58,16 @@ namespace DilAjandam.Views
                     await Task.Delay(100);
 
                 IsPresented = false;
+            }
+        }
+
+        public static void RefreshPages()
+        {
+            var pages = MenuPages.ToList();
+            foreach (var item in pages)
+            {
+                var refp = (RefreshablePage)item.Value.RootPage;
+                refp.Refresh();
             }
         }
     }

@@ -1,18 +1,17 @@
 ﻿using DataAccessLayer.Services;
 using DilAjandam.Helpers;
 using DilAjandam.Views.Words;
+using Helpers.UI;
 using ImageCircle.Forms.Plugin.Abstractions;
 using Models;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using Xamarin.CustomViews.Enums;
 using Xamarin.CustomViews.Views;
 using Xamarin.Forms;
 
 namespace DilAjandam.Views
 {
-    public class WordPage : ContentPage
+    public class WordPage : RefreshablePage
     {
         WordService _wordService;
         List<Word> _wordList;
@@ -48,8 +47,8 @@ namespace DilAjandam.Views
             StackLayout tablestack = new StackLayout() { Padding = 0, Margin = 0, Spacing = -2 };
             foreach (var item in _wordList)
             {
-                DynamicGrid dynamicGrid = new DynamicGrid(Xamarin.CustomViews.Enums.DynamicGridEnum.Custom, 20, 42,  38, 6) { Padding = 0, Margin = 0, RowSpacing = 0, ColumnSpacing = 0 };
-                dynamicGrid.AddView(new Label() { VerticalOptions = LayoutOptions.Center, FontAttributes = FontAttributes.Bold, Text = item.Type.ToString(), Margin = 0 });
+                DynamicGrid dynamicGrid = new DynamicGrid(Xamarin.CustomViews.Enums.DynamicGridEnum.Custom, 20, 34, 40, 6) { Padding = 0, Margin = 0, RowSpacing = 0, ColumnSpacing = 0 };
+                dynamicGrid.AddView(new Label() { VerticalOptions = LayoutOptions.Center, FontAttributes = FontAttributes.Bold, TextColor = TextExtensions.GetTextColor(item.Type), Text = item.Type.ToString(), Margin = 0 });
                 dynamicGrid.AddView(new Label() { VerticalOptions = LayoutOptions.Center, Text = item.Key, Margin = new Thickness(5, 0, 0, 0) });
                 dynamicGrid.AddView(new Label() { HorizontalTextAlignment = TextAlignment.Center, VerticalTextAlignment = TextAlignment.Center, Text = item.Description, Margin = 0 });
 
@@ -62,7 +61,7 @@ namespace DilAjandam.Views
         }
         private async void PlusBarClicked()
         {
-            await Navigation.PushAsync(new WordCreatePage(this));
+            await Navigation.PushAsync(new WordCreatePage());
         }
 
         public void ComponentLoad()
@@ -77,7 +76,7 @@ namespace DilAjandam.Views
                 }
             };
             StackLayout mainStack = new StackLayout() { HorizontalOptions = LayoutOptions.FillAndExpand, VerticalOptions = LayoutOptions.FillAndExpand, Padding = new Thickness(0, 5, 0, 0), Margin = 0, Spacing = 10 };
-            mainStack.Children.Add(new TitleComponent($"Planlarım ({_wordList.Count} adet)"));
+            mainStack.Children.Add(new TitleComponent($"Kelimeler ({_wordList.Count} adet)"));
             absoluteLayout.Children.Add(sl, new Rectangle(0, 0, 1, 1), AbsoluteLayoutFlags.All);
             absoluteLayout.Children.Add(new Button() { Text = "+", Command = new Command(PlusBarClicked), FontSize = 20, FontAttributes = FontAttributes.Bold, WidthRequest = 50, HeightRequest = 50, CornerRadius = 25, BackgroundColor = Color.Beige, TextColor = Color.Black }, new Rectangle(0.95, 0.95, 50, 50), AbsoluteLayoutFlags.PositionProportional);
             mainStack.Children.Add(absoluteLayout);
@@ -92,11 +91,13 @@ namespace DilAjandam.Views
             {
                 return;
             }
-            _wordService.Delete(model);
-            Refresh();
+            if (_wordService.Delete(model))
+            {
+                MainPage.RefreshPages();
+            }
         }
 
-        public void Refresh()
+        public override void Refresh()
         {
             GetData(prefix);
             ComponentLoad();

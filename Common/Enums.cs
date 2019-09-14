@@ -15,8 +15,7 @@ namespace Common
         }
         public enum MenuItemType
         {
-            Browse,
-            About,
+            All,
             A,
             B,
             C,
@@ -42,7 +41,8 @@ namespace Common
             W,
             X,
             Y,
-            Z
+            Z,
+            About
         }
     }
 }

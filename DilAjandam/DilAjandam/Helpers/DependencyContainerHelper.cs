@@ -26,7 +26,6 @@ namespace DilAjandam.Helpers
             {
                 _builder = new ContainerBuilder();
                 _builder.RegisterType<SQLiteProvider>().As<IDBProvider>().SingleInstance();
-                //_builder.RegisterType<WordService>().SingleInstance();
                 var dbContext = DependencyService.Get<IDBProviderPlatform>().Connection();
                 _builder.RegisterInstance(new WordService(dbContext)).SingleInstance();
                 _container = _builder.Build();

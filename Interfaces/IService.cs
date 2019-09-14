@@ -13,6 +13,6 @@ namespace Interfaces
 
         T GetById(string id);
 
-        void Delete(T model);
+        bool Delete(T model);
     }
 }

@@ -12,16 +12,13 @@ namespace DilAjandam.Views.Words
 {
     public class WordCreatePage : ContentPage
     {
-        WordPage _mainPage;
         Entry keyEntry;
-        string typeSelect;
         Entry descriptionEntry;
         Picker typePicker;
         Label label;
         WordService _wordService;
-        public WordCreatePage(WordPage page)
+        public WordCreatePage()
         {
-            _mainPage = page;
             Title = "Kelime Ekle";
             _wordService = DependencyContainerHelper.WordService;
             ComponentLoad();
@@ -32,16 +29,16 @@ namespace DilAjandam.Views.Words
             ScrollView scrollView = new ScrollView();
             StackLayout stackLayout = new StackLayout() { VerticalOptions = LayoutOptions.Center };
 
-            Frame frame = new Frame() { BackgroundColor = Color.Beige };
+            Frame frame = new Frame() { BackgroundColor = Color.White };
 
             keyEntry = new Entry
             {
-                Placeholder = "Key"
+                Placeholder = "Kelime"
             };
 
             descriptionEntry = new Entry
             {
-                Placeholder = "Description"
+                Placeholder = "Anlamı"
             };
 
             typePicker = new Picker
@@ -71,7 +68,6 @@ namespace DilAjandam.Views.Words
             stackLayout.Children.Add(label);
 
             frame.Content = stackLayout;
-
             scrollView.Content = frame;
             Content = scrollView;
         }
@@ -101,7 +97,7 @@ namespace DilAjandam.Views.Words
                     if (type != null)
                     {
                         _wordService.Create(new Word() { Key = keyEntry.Text, Description = descriptionEntry.Text, Id = Guid.NewGuid().ToString(), PrefixKey = keyEntry.Text[0].ToString().ToUpper(), Type = type });
-                        _mainPage.Refresh();
+                        MainPage.RefreshPages();
                         Navigation.PopAsync();
                     }
                     else

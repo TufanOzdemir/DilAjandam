@@ -51,7 +51,7 @@ namespace DataAccessLayer.Services
             List<Word> result;
             try
             {
-                var listCheck = _wordDictionary.TryGetValue(prefixKey,out result);
+                var listCheck = _wordDictionary.TryGetValue(prefixKey, out result);
                 if (!listCheck)
                 {
                     result = new List<Word>();
@@ -78,16 +78,14 @@ namespace DataAccessLayer.Services
             return result;
         }
 
-        public void Delete(Word model)
+        public bool Delete(Word model)
         {
-            try
+            bool result = _dataContext.Delete(model);
+            if (result)
             {
-                _dataContext.Delete(model);
                 RefreshData();
             }
-            catch (Exception ex)
-            {
-            }
+            return result;
         }
 
         private void RefreshData()

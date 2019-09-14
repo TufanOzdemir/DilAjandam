@@ -10,11 +10,11 @@ namespace Interfaces
     {
         int Insert(object model);
 
-        List<T> GetAll<T>() where T : new();
+        List<T> GetAll<T>() where T : IEntity, new();
 
-        T Get<T>(string id) where T : IEntity;
+        T Get<T>(string id) where T : IEntity, new();
 
-        int Delete(object model);
+        bool Delete(object model);
 
         void CreateTable<T>();
     }
