@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using static Common.Enums;
 
 namespace DilAjandam.Views
 {
@@ -10,8 +11,12 @@ namespace DilAjandam.Views
     {
         public AboutPage()
         {
-            //InitializeComponent();
-            Content = new Label() { Text = "Hakkımızda" };
+            Title = MenuItemType.About.ToString();
+            Content = new Label()
+            {
+                Text = "Bu uygulama Bilge Tufan Özdemir tarafından E-Bird Software için yapılmıştır. " +
+                "Uygulamayı beğendiyseniz Kumbaram isimli uygulamayı denemelisiniz."
+            };
         }
     }
 }

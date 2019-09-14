@@ -20,10 +20,10 @@ namespace DilAjandam.Views
         public MainPage()
         {
             InitializeComponent();
-
+            BackgroundColor = UserSettings.PageColor;
             MasterBehavior = MasterBehavior.Popover;
 
-            MenuPages.Add((int)MenuItemType.All, (NavigationPage)Detail);
+            MenuPages.Add((int)MenuItemType.All, new NavigationPage(new WordPage()) { BarBackgroundColor = UserSettings.MainColor, BarTextColor = UserSettings.NavigationTextColor });
         }
 
         public async Task NavigateFromMenu(int id)
@@ -32,17 +32,14 @@ namespace DilAjandam.Views
             {
                 if (id != (int)MenuItemType.All && id != (int)MenuItemType.About)
                 {
-                    MenuPages.Add(id, new NavigationPage(new WordPage(((MenuItemType)id).ToString())));
+                    MenuPages.Add(id, new NavigationPage(new WordPage(((MenuItemType)id).ToString())) { BarBackgroundColor = UserSettings.MainColor, BarTextColor = UserSettings.NavigationTextColor });
                 }
                 else
                 {
                     switch (id)
                     {
-                        case (int)MenuItemType.All:
-                            MenuPages.Add(id, new NavigationPage(new WordPage()));
-                            break;
                         case (int)MenuItemType.About:
-                            MenuPages.Add(id, new NavigationPage(new AboutPage()));
+                            MenuPages.Add(id, new NavigationPage(new AboutPage()) { BarBackgroundColor = UserSettings.MainColor, BarTextColor = UserSettings.NavigationTextColor });
                             break;
                     }
                 }
