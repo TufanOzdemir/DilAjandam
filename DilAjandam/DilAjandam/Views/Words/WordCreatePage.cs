@@ -1,5 +1,6 @@
 ﻿using DataAccessLayer.Services;
 using DilAjandam.Helpers;
+using Helpers.UI;
 using Models;
 using System;
 using System.Collections.Generic;
@@ -55,8 +56,8 @@ namespace DilAjandam.Views.Words
             {
                 Text = "Kaydet",
                 Command = new Command(this.SaveBtnClick),
-                BackgroundColor = Color.Beige,
-                TextColor = Color.Black
+                BackgroundColor = UserSettings.ButtonColor,
+                TextColor = UserSettings.TextColor
             };
 
             FillPicker();
